@@ -25,6 +25,7 @@ const getUserByUsername = async (username) => {
 // };
 
 const updateUser = (body, id) => {
+  // UPDATE
   const query = `UPDATE users SET no_hp = "${body.nohp}", alamat = "${body.alamat}", kecamatan = "${body.kecamatan}", kelurahan = "${body.kelurahan}" WHERE id = ${id}`;
   const exec = dbPool.execute(query);
 

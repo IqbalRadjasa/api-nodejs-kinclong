@@ -1,5 +1,6 @@
 const UsersModel = require('../models/Users');
 const { hashPassword, verifyPassword } = require('../utils/hashUtil');
+const jwt = require('jsonwebtoken');
 
 const creatUser = async (req, res) => {
   const { body } = req;
@@ -73,9 +74,12 @@ const getUserByUsernamePassword = async (req, res) => {
 
     delete user.password;
 
+    const token = jwt.sign({ id: user.id, username: user.username }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
     res.status(200).json({
       status: 200,
       message: 'Login successful',
+      token: token,
       data: user,
     });
   } catch (error) {
@@ -106,29 +110,29 @@ const getUserByUsernamePassword = async (req, res) => {
 //   }
 // };
 
-// const updateUser = async (req, res) => {
-//   const { id } = req.params;
-//   const { body } = req;
+const updateUser = async (req, res) => {
+  const { id } = req.params;
+  const { body } = req;
 
-//   try {
-//     await UsersModel.updateUser(body, id);
+  try {
+    await UsersModel.updateUser(body, id);
 
-//     res.status(200).json({
-//       status: 200,
-//       message: 'User updated successfully',
-//       data: {
-//         id: id,
-//         ...body,
-//       },
-//     });
-//   } catch (error) {
-//     res.status(500).json({
-//       status: 500,
-//       message: 'Server error',
-//       serverMessage: error,
-//     });
-//   }
-// };
+    res.status(200).json({
+      status: 200,
+      message: 'User updated successfully',
+      data: {
+        id: id,
+        ...body,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: 500,
+      message: 'Server error',
+      serverMessage: error,
+    });
+  }
+};
 
 // const deleteUser = async (req, res) => {
 //   const { id } = req.params;
@@ -152,8 +156,8 @@ const getUserByUsernamePassword = async (req, res) => {
 
 module.exports = {
   creatUser,
-    getUserByUsernamePassword,
+  getUserByUsernamePassword,
   //   getByUserId,
-  //   updateUser,
+    updateUser,
   //   deleteUser,
 };

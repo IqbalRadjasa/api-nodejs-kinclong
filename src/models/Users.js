@@ -16,13 +16,13 @@ const getUserByUsername = async (username) => {
   return rows;
 };
 
-// const getByUserId = (id) => {
-//   const query = `SELECT u.username, u.email, ud.address, ud.subdistrict, ud.urban_village FROM users u
-//                   LEFT JOIN user_detail ud ON u.id = ud.user_id WHERE u.id = ${id}`;
-//   const exec = dbPool.execute(query);
+const getByUserId = (id) => {
+  const query = `SELECT u.username, u.email, ud.address, ud.subdistrict, ud.urban_village FROM users u
+                  LEFT JOIN user_detail ud ON u.id = ud.user_id WHERE u.id = ${id}`;
+  const exec = dbPool.execute(query);
 
-//   return exec;
-// };
+  return exec;
+};
 
 // const updateUser = (body, id) => {
 //   const query = `UPDATE user_detail SET address = "${body.address}", subdistrict = "${body.subdistrict}", urban_village = "${body.urban_village}" WHERE user_id = ${id}`;

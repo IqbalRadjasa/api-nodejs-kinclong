@@ -35,46 +35,22 @@ const creatProduk = async (req, res) => {
   }
 };
 
-const getUserByUsernamePassword = async (req, res) => {
+const getAllData = async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const [result] = await ProdukModel.getAllData();
 
-    if (!username || !password) {
-      return res.status(400).json({
-        status: 400,
-        message: 'Username and password are required!',
-        data: null,
-      });
-    }
-
-    const [user] = await UsersModel.getUserByUsername(username);
-
-    if (!user) {
+    if (!result) {
       return res.status(404).json({
         status: 404,
-        message: 'User not found!',
+        message: 'No data has been found.',
         data: null,
       });
     }
-
-    const isPasswordValid = await verifyPassword(password, user.password);
-    if (!isPasswordValid) {
-      return res.status(401).json({
-        status: 401,
-        message: 'Invalid password!',
-        data: null,
-      });
-    }
-
-    delete user.password;
-
-    const token = jwt.sign({ id: user.id, username: user.username }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
     res.status(200).json({
       status: 200,
-      message: 'Login successful',
-      token: token,
-      data: user,
+      message: 'Get all data successfull!',
+      data: result,
     });
   } catch (error) {
     res.status(500).json({
@@ -193,7 +169,7 @@ const updateUser = async (req, res) => {
 
 module.exports = {
   creatProduk,
-  getUserByUsernamePassword,
+  getAllData,
   forgotPassword,
   resetPassword,
   updateUser,

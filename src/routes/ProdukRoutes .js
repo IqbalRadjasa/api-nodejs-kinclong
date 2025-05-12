@@ -7,7 +7,7 @@ const authenticateToken = require('../middleware/authMiddleware');
 // Create - POST
 router.post('/', authenticateToken, ProdukController.creatProduk);
 // Auth - POST
-// router.post('/login', UsersController.getUserByUsernamePassword);
+router.get('/', authenticateToken, ProdukController.getAllData);
 // // Update - PUT
 // router.put('/:id', authenticateToken, UsersController.updateUser);
 

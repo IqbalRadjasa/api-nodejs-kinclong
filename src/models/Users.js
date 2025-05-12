@@ -16,6 +16,25 @@ const getUserByUsername = async (username) => {
   return rows;
 };
 
+const getUserByEmail = async (email) => {
+  const query = `SELECT * FROM users WHERE email = ?`;
+  const [rows] = await dbPool.execute(query, [email]);
+  return rows;
+};
+
+const resetPassword = async (username, email, hashedPassword) => {
+  const query = `
+    UPDATE users SET password = ? WHERE username = ? and email = ? 
+  `;
+  const [result] = await dbPool.execute(query, [hashedPassword, username, email]);
+
+  if (result.affectedRows === 0) {
+    throw new Error('User not found or invalid username/email combination');
+  }
+
+  return result;
+};
+
 // const getByUserId = (id) => {
 //   const query = `SELECT u.username, u.email, ud.address, ud.subdistrict, ud.urban_village FROM users u
 //                   LEFT JOIN user_detail ud ON u.id = ud.user_id WHERE u.id = ${id}`;
@@ -42,6 +61,8 @@ const updateUser = (body, id) => {
 module.exports = {
   createUser,
   getUserByUsername,
+  getUserByEmail,
+  resetPassword,
   updateUser,
   //   getByUserId,
   //   deleteUser,

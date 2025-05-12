@@ -8,11 +8,13 @@ const authenticateToken = require('../middleware/authMiddleware');
 router.post('/register', UsersController.creatUser);
 // Auth - POST
 router.post('/login', UsersController.getUserByUsernamePassword);
-// // Auth - POST
-// router.get('/:id', UsersController.getByUserId);
 // Update - PUT
 router.put('/:id', authenticateToken, UsersController.updateUser);
-// // Delete - DELETE
-// router.delete('/:id', UsersController.deleteUser);
+
+// Forgot Password
+router.post('/forgot-password', UsersController.forgotPassword);
+
+// Reset Password
+router.post('/reset-password', UsersController.resetPassword);
 
 module.exports = router;

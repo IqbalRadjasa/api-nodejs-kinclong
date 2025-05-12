@@ -1,6 +1,9 @@
 const UsersModel = require('../models/Users');
-const { hashPassword, verifyPassword } = require('../utils/hashUtil');
 const jwt = require('jsonwebtoken');
+const transporter = require('../config/email');
+const redisClient = require('../config/redis');
+const crypto = require('crypto');
+const { hashPassword, verifyPassword } = require('../utils/hashUtil');
 
 const creatUser = async (req, res) => {
   const { body } = req;
@@ -33,10 +36,18 @@ const creatUser = async (req, res) => {
       },
     });
   } catch (error) {
+    if (error.code === 'ER_DUP_ENTRY') {
+      const duplicateField = error.sqlMessage.includes('username') ? 'Username' : 'Email';
+      return res.status(400).json({
+        status: 400,
+        message: `${duplicateField} is already been used.`,
+      });
+    }
+
     res.status(500).json({
       status: 500,
       message: 'Server error',
-      serverMessage: error,
+      serverMessage: error.message,
     });
   }
 };
@@ -89,6 +100,49 @@ const getUserByUsernamePassword = async (req, res) => {
       serverMessage: error.message,
     });
   }
+};
+
+const forgotPassword = async (req, res) => {
+  const { email } = req.body;
+  const user = await UsersModel.getUserByEmail(email);
+
+  if (!user) {
+    return res.status(404).json({ status: 404, message: 'Email not found' });
+  }
+
+  const otp = crypto.randomInt(100000, 999999).toString();
+
+  await redisClient.setEx(`otp:${email}`, 300, otp);
+
+  await transporter.sendMail({
+    from: process.env.EMAIL_USER,
+    to: email,
+    subject: 'Forgot Password OTP',
+    text: `Your OTP code is: ${otp}`,
+  });
+
+  res.status(200).json({ status: 200, message: 'OTP has been sent to your email' });
+};
+
+const resetPassword = async (req, res) => {
+  const { username, email, otp, newPassword } = req.body;
+
+  const storedOtp = await redisClient.get(`otp:${email}`);
+
+  if (!storedOtp) {
+    return res.status(400).json({ status: 400, message: 'OTP expired or invalid' });
+  }
+
+  if (storedOtp !== otp) {
+    return res.status(400).json({ status: 400, message: 'Invalid OTP' });
+  }
+
+  const hashedPassword = await hashPassword(newPassword);
+  await UsersModel.resetPassword(username, email, hashedPassword);
+
+  await redisClient.del(`otp:${email}`);
+
+  res.status(200).json({ status: 200, message: 'Password has been reset' });
 };
 
 // const getByUserId = async (req, res) => {
@@ -157,7 +211,9 @@ const updateUser = async (req, res) => {
 module.exports = {
   creatUser,
   getUserByUsernamePassword,
+  forgotPassword,
+  resetPassword,
+  updateUser,
   //   getByUserId,
-    updateUser,
   //   deleteUser,
 };

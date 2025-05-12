@@ -145,25 +145,6 @@ const resetPassword = async (req, res) => {
   res.status(200).json({ status: 200, message: 'Password has been reset' });
 };
 
-// const getByUserId = async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     const [data] = await UsersModel.getByUserId(id);
-
-//     res.json({
-//       status: 200,
-//       message: `Get User Found`,
-//       data: data,
-//     });
-//   } catch (error) {
-//     res.status(500).json({
-//       status: 500,
-//       message: 'Server error',
-//       serverMessage: error,
-//     });
-//   }
-// };
-
 const updateUser = async (req, res) => {
   const { id } = req.params;
   const { body } = req;
@@ -188,25 +169,6 @@ const updateUser = async (req, res) => {
   }
 };
 
-// const deleteUser = async (req, res) => {
-//   const { id } = req.params;
-
-//   try {
-//     await UsersModel.deleteUser(id);
-
-//     res.status(200).json({
-//       status: 200,
-//       message: 'User deleted successfully',
-//       data: [],
-//     });
-//   } catch (error) {
-//     res.status(500).json({
-//       status: 500,
-//       message: 'Server error',
-//       serverMessage: error,
-//     });
-//   }
-// };
 
 module.exports = {
   creatUser,
@@ -214,6 +176,4 @@ module.exports = {
   forgotPassword,
   resetPassword,
   updateUser,
-  //   getByUserId,
-  //   deleteUser,
 };

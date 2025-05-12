@@ -17,12 +17,12 @@ app.listen(envPort, () => {
 
 // Routes
 const userRoutes = require('./src/routes/UsersRoutes');
-// const concertRoutes = require('./src/routes/ConcertRoutes');
+const produkRoutes = require('./src/routes/ProdukRoutes ');
 // const bookingRoutes = require('./src/routes/BookingRoutes');
 
 // Active Routes
 app.use('/users', userRoutes);
-// app.use('/concert', concertRoutes);
+app.use('/produk', produkRoutes);
 // app.use('/booking', bookingRoutes);
 
 app.use((req, res) => {

@@ -17,7 +17,6 @@ const getAllData = async () => {
 };
 
 const updateProduk = (body, id) => {
-  // UPDATE
   const query = `UPDATE produk SET nama = "${body.nama}" WHERE id = ${id}`;
   const exec = dbPool.execute(query);
 

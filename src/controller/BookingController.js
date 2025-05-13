@@ -37,6 +37,35 @@ const createBooking = async (req, res) => {
   }
 };
 
+const bookingHistory = async (req, res) => {
+  const { body } = req;
+
+  try {
+    const data = await BookingModel.bookingHistory(body);
+
+    if (!data) {
+      return res.status(404).json({
+        status: 404,
+        message: 'Tidak ada data yang tidak ditemukan.',
+        data: null,
+      });
+    }
+
+    res.status(200).json({
+      status: 200,
+      message: 'Data berhasil ditemukan!',
+      data: data,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: 500,
+      message: 'Server error',
+      serverMessage: error.message,
+    });
+  }
+};
+
 module.exports = {
   createBooking,
+  bookingHistory,
 };

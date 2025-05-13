@@ -35,28 +35,12 @@ const resetPassword = async (username, email, hashedPassword) => {
   return result;
 };
 
-// const getByUserId = (id) => {
-//   const query = `SELECT u.username, u.email, ud.address, ud.subdistrict, ud.urban_village FROM users u
-//                   LEFT JOIN user_detail ud ON u.id = ud.user_id WHERE u.id = ${id}`;
-//   const exec = dbPool.execute(query);
-
-//   return exec;
-// };
-
 const updateUser = (body, id) => {
-  // UPDATE
   const query = `UPDATE users SET no_hp = "${body.nohp}", alamat = "${body.alamat}", kecamatan = "${body.kecamatan}", kelurahan = "${body.kelurahan}" WHERE id = ${id}`;
   const exec = dbPool.execute(query);
 
   return exec;
 };
-
-// const deleteUser = (id) => {
-//   const query = `DELETE FROM users WHERE id = ${id}`;
-//   const exec = dbPool.execute(query);
-
-//   return exec;
-// };
 
 module.exports = {
   createUser,
@@ -64,6 +48,4 @@ module.exports = {
   getUserByEmail,
   resetPassword,
   updateUser,
-  //   getByUserId,
-  //   deleteUser,
 };

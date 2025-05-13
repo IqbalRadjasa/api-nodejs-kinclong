@@ -1,4 +1,4 @@
-const ProdukModel = require('../models/Produk');
+const StatusBerlakuModel = require('../models/StatusBerlaku');
 
 const createData = async (req, res) => {
   const { body } = req;
@@ -12,7 +12,7 @@ const createData = async (req, res) => {
   }
 
   try {
-    await ProdukModel.createProduk(body);
+    await StatusBerlakuModel.createData(body);
 
     res.status(200).json({
       status: 200,
@@ -32,12 +32,12 @@ const createData = async (req, res) => {
 
 const getAllData = async (req, res) => {
   try {
-    const [result] = await ProdukModel.getAllData();
+    const data = await StatusBerlakuModel.getAllData();
 
-    if (!result) {
+    if (!data) {
       return res.status(404).json({
         status: 404,
-        message: 'Tidak ada data yang ditemukan.',
+        message: 'Tidak ada data yang tidak ditemukan.',
         data: null,
       });
     }
@@ -45,7 +45,7 @@ const getAllData = async (req, res) => {
     res.status(200).json({
       status: 200,
       message: 'Data berhasil ditemukan!',
-      data: result,
+      data: data,
     });
   } catch (error) {
     res.status(500).json({
@@ -61,7 +61,7 @@ const updateData = async (req, res) => {
   const { body } = req;
 
   try {
-    await ProdukModel.updateProduk(body, id);
+    await StatusBerlakuModel.updateData(body, id);
 
     res.status(200).json({
       status: 200,
@@ -84,7 +84,7 @@ const deleteData = async (req, res) => {
   const { id } = req.params;
 
   try {
-    await ProdukModel.deleteProduk(id);
+    await StatusBerlakuModel.deleteData(id);
 
     res.status(200).json({
       status: 200,

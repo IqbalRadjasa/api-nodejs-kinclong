@@ -1,6 +1,6 @@
 const dbPool = require('../config/database');
 
-const createProduk = async (body) => {
+const createData = async (body) => {
   const users_query = `
       INSERT INTO produk (nama) 
       VALUES (?)
@@ -16,14 +16,14 @@ const getAllData = async () => {
   return result;
 };
 
-const updateProduk = (body, id) => {
+const updateData = (body, id) => {
   const query = `UPDATE produk SET nama = "${body.nama}" WHERE id = ${id}`;
   const exec = dbPool.execute(query);
 
   return exec;
 };
 
-const deleteProduk = (id) => {
+const deleteData = (id) => {
   const query = `DELETE FROM produk WHERE id = ${id}`;
   const exec = dbPool.execute(query);
 
@@ -31,8 +31,8 @@ const deleteProduk = (id) => {
 };
 
 module.exports = {
-  createProduk,
+  createData,
   getAllData,
-  updateProduk,
-  deleteProduk,
+  updateData,
+  deleteData,
 };

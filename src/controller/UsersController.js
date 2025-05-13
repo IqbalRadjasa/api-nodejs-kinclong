@@ -5,7 +5,7 @@ const redisClient = require('../config/redis');
 const crypto = require('crypto');
 const { hashPassword, verifyPassword } = require('../utils/hashUtil');
 
-const creatUser = async (req, res) => {
+const createUser = async (req, res) => {
   const { body } = req;
 
   if (!body.username || !body.email || !body.password || !body.nohp || !body.alamat || !body.kecamatan || !body.kelurahan) {
@@ -170,7 +170,7 @@ const updateUserProfile = async (req, res) => {
 };
 
 module.exports = {
-  creatUser,
+  createUser,
   getUserByUsernamePassword,
   forgotPassword,
   resetPassword,

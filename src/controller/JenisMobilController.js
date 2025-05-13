@@ -1,6 +1,6 @@
 const JenisMobilModel = require('../models/JenisMobil');
 
-const creatJenisMobil = async (req, res) => {
+const createData = async (req, res) => {
   const { body } = req;
 
   if (!body.nama) {
@@ -12,11 +12,11 @@ const creatJenisMobil = async (req, res) => {
   }
 
   try {
-    await JenisMobilModel.createJenisMobil(body);
+    await JenisMobilModel.createData(body);
 
     res.status(200).json({
       status: 200,
-      message: 'Jenis mobil berhasil ditambahkan!',
+      message: 'Data berhasil ditambahkan!',
       data: {
         nama: body.nama,
       },
@@ -56,16 +56,16 @@ const getAllData = async (req, res) => {
   }
 };
 
-const updateJenisMobil = async (req, res) => {
+const updateData = async (req, res) => {
   const { id } = req.params;
   const { body } = req;
 
   try {
-    await JenisMobilModel.updateJenisMobil(body, id);
+    await JenisMobilModel.updateData(body, id);
 
     res.status(200).json({
       status: 200,
-      message: 'Jenis mobil berhasil diperbarui!',
+      message: 'Data berhasil diperbarui!',
       data: {
         id: id,
         ...body,
@@ -80,15 +80,15 @@ const updateJenisMobil = async (req, res) => {
   }
 };
 
-const deleteJenisMobil = async (req, res) => {
+const deleteData = async (req, res) => {
   const { id } = req.params;
 
   try {
-    await JenisMobilModel.deleteJenisMobil(id);
+    await JenisMobilModel.deleteData(id);
 
     res.status(200).json({
       status: 200,
-      message: 'Jenis mobil berhasil dihapus!',
+      message: 'Data berhasil dihapus!',
       data: [],
     });
   } catch (error) {
@@ -101,8 +101,8 @@ const deleteJenisMobil = async (req, res) => {
 };
 
 module.exports = {
-  creatJenisMobil,
+  createData,
   getAllData,
-  updateJenisMobil,
-  deleteJenisMobil,
+  updateData,
+  deleteData,
 };

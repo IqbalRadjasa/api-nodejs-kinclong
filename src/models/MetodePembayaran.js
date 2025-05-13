@@ -2,7 +2,7 @@ const dbPool = require('../config/database');
 
 const createData = async (body) => {
   const users_query = `
-      INSERT INTO jenis_mobil (nama) 
+      INSERT INTO metode_pembayaran (nama) 
       VALUES (?)
     `;
   const [result] = await dbPool.execute(users_query, [body.nama]);
@@ -11,20 +11,20 @@ const createData = async (body) => {
 };
 
 const getAllData = async () => {
-  const query = `SELECT * FROM jenis_mobil`;
+  const query = `SELECT * FROM metode_pembayaran`;
   const [rows] = await dbPool.execute(query);
   return rows;
 };
 
 const updateData = (body, id) => {
-  const query = `UPDATE jenis_mobil SET nama = "${body.nama}" WHERE id = ${id}`;
+  const query = `UPDATE metode_pembayaran SET nama = "${body.nama}" WHERE id = ${id}`;
   const exec = dbPool.execute(query);
 
   return exec;
 };
 
 const deleteData = (id) => {
-  const query = `DELETE FROM jenis_mobil WHERE id = ${id}`;
+  const query = `DELETE FROM metode_pembayaran WHERE id = ${id}`;
   const exec = dbPool.execute(query);
 
   return exec;

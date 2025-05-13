@@ -5,7 +5,7 @@ const authenticateToken = require('../middleware/authMiddleware');
 
 // CRUD Routes
 // Create - POST
-router.post('/register', UsersController.creatUser);
+router.post('/register', UsersController.createUser);
 // Auth - POST
 router.post('/login', UsersController.getUserByUsernamePassword);
 // Update - PUT

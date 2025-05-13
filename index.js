@@ -19,18 +19,20 @@ app.listen(envPort, () => {
 // Routes
 const userRoutes = require('./src/routes/UsersRoutes');
 const produkRoutes = require('./src/routes/ProdukRoutes ');
-const jenisMobilRoutes = require('./src/routes/JenisMobilRoutes');
-const metodePembayaranRoutes = require('./src/routes/MetodePembayaranRoutes');
-const statusBerlakuRoutes = require('./src/routes/StatusBerlakuRoutes');
 const bookingRoutes = require('./src/routes/BookingRoutes');
+const jenisMobilRoutes = require('./src/routes/JenisMobilRoutes');
+const statusBerlakuRoutes = require('./src/routes/StatusBerlakuRoutes');
+const metodePembayaranRoutes = require('./src/routes/MetodePembayaranRoutes');
+const statusPembayaranRoutes = require('./src/routes/StatusPembayaranRoutes');
 
 // Active Routes
 app.use('/users', userRoutes);
 app.use('/produk', produkRoutes);
-app.use('/jenisMobil', jenisMobilRoutes);
-app.use('/metodePembayaran', metodePembayaranRoutes);
-app.use('/statusBerlaku', statusBerlakuRoutes);
 app.use('/booking', bookingRoutes);
+app.use('/jenisMobil', jenisMobilRoutes);
+app.use('/statusBerlaku', statusBerlakuRoutes);
+app.use('/metodePembayaran', metodePembayaranRoutes);
+app.use('/statusPembayaran', statusPembayaranRoutes);
 
 app.use((req, res) => {
   res.status(404).json({

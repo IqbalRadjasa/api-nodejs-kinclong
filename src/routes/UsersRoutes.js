@@ -9,7 +9,7 @@ router.post('/register', UsersController.creatUser);
 // Auth - POST
 router.post('/login', UsersController.getUserByUsernamePassword);
 // Update - PUT
-router.put('/:id', authenticateToken, UsersController.updateUser);
+router.put('/:id', authenticateToken, UsersController.updateUserProfile);
 
 // Forgot Password
 router.post('/forgot-password', UsersController.forgotPassword);

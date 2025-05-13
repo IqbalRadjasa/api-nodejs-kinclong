@@ -25,7 +25,7 @@ const creatUser = async (req, res) => {
 
     res.status(200).json({
       status: 200,
-      message: 'User created successfully',
+      message: 'Registrasi berhasil!',
       data: {
         username: body.username,
         email: body.email,
@@ -40,7 +40,7 @@ const creatUser = async (req, res) => {
       const duplicateField = error.sqlMessage.includes('username') ? 'Username' : 'Email';
       return res.status(400).json({
         status: 400,
-        message: `${duplicateField} is already been used.`,
+        message: `${duplicateField} telah dipakai.`,
       });
     }
 
@@ -59,7 +59,7 @@ const getUserByUsernamePassword = async (req, res) => {
     if (!username || !password) {
       return res.status(400).json({
         status: 400,
-        message: 'Username and password are required!',
+        message: 'Nama Pengguna dan Kata Sandi diperlukan!',
         data: null,
       });
     }
@@ -69,7 +69,7 @@ const getUserByUsernamePassword = async (req, res) => {
     if (!user) {
       return res.status(404).json({
         status: 404,
-        message: 'User not found!',
+        message: 'Pengguna tidak terdaftar.',
         data: null,
       });
     }
@@ -78,7 +78,7 @@ const getUserByUsernamePassword = async (req, res) => {
     if (!isPasswordValid) {
       return res.status(401).json({
         status: 401,
-        message: 'Invalid password!',
+        message: 'Kata Sandi salah!',
         data: null,
       });
     }
@@ -89,7 +89,7 @@ const getUserByUsernamePassword = async (req, res) => {
 
     res.status(200).json({
       status: 200,
-      message: 'Login successful',
+      message: 'Berhasil masuk!',
       token: token,
       data: user,
     });
@@ -107,7 +107,7 @@ const forgotPassword = async (req, res) => {
   const user = await UsersModel.getUserByEmail(email);
 
   if (!user) {
-    return res.status(404).json({ status: 404, message: 'Email not found' });
+    return res.status(404).json({ status: 404, message: 'Email tidak ditemukan' });
   }
 
   const otp = crypto.randomInt(100000, 999999).toString();
@@ -117,11 +117,11 @@ const forgotPassword = async (req, res) => {
   await transporter.sendMail({
     from: process.env.EMAIL_USER,
     to: email,
-    subject: 'Forgot Password OTP',
-    text: `Your OTP code is: ${otp}`,
+    subject: 'Lupa Kata Sandi',
+    text: `Kode OTP kamu adalah: ${otp}, gunakan Kode OTP tersebut untuk melakukan pembuatan ulang Kata Sandi.`,
   });
 
-  res.status(200).json({ status: 200, message: 'OTP has been sent to your email' });
+  res.status(200).json({ status: 200, message: 'Kode OTP berhasil dikirimkan ke Email!' });
 };
 
 const resetPassword = async (req, res) => {
@@ -130,11 +130,11 @@ const resetPassword = async (req, res) => {
   const storedOtp = await redisClient.get(`otp:${email}`);
 
   if (!storedOtp) {
-    return res.status(400).json({ status: 400, message: 'OTP expired or invalid' });
+    return res.status(400).json({ status: 400, message: 'Kode OTP tidak berlaku atau tidak sesuai!' });
   }
 
   if (storedOtp !== otp) {
-    return res.status(400).json({ status: 400, message: 'Invalid OTP' });
+    return res.status(400).json({ status: 400, message: 'Kode OTP tidak sesuai!' });
   }
 
   const hashedPassword = await hashPassword(newPassword);
@@ -142,10 +142,10 @@ const resetPassword = async (req, res) => {
 
   await redisClient.del(`otp:${email}`);
 
-  res.status(200).json({ status: 200, message: 'Password has been reset' });
+  res.status(200).json({ status: 200, message: 'Kata Sandi berhasil dibuat ulang!' });
 };
 
-const updateUser = async (req, res) => {
+const updateUserProfile = async (req, res) => {
   const { id } = req.params;
   const { body } = req;
 
@@ -154,7 +154,7 @@ const updateUser = async (req, res) => {
 
     res.status(200).json({
       status: 200,
-      message: 'User updated successfully',
+      message: 'Profil berhasil diperbarui!',
       data: {
         id: id,
         ...body,
@@ -169,11 +169,10 @@ const updateUser = async (req, res) => {
   }
 };
 
-
 module.exports = {
   creatUser,
   getUserByUsernamePassword,
   forgotPassword,
   resetPassword,
-  updateUser,
+  updateUserProfile,
 };

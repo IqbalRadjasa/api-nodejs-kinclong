@@ -1,6 +1,6 @@
-const ProdukModel = require('../models/Produk');
+const JenisMobilModel = require('../models/JenisMobil');
 
-const creatProduk = async (req, res) => {
+const creatJenisMobil = async (req, res) => {
   const { body } = req;
 
   if (!body.nama) {
@@ -12,11 +12,11 @@ const creatProduk = async (req, res) => {
   }
 
   try {
-    await ProdukModel.createProduk(body);
+    await JenisMobilModel.createJenisMobil(body);
 
     res.status(200).json({
       status: 200,
-      message: 'Produk berhasil ditambahkan!',
+      message: 'Jenis mobil berhasil ditambahkan!',
       data: {
         nama: body.nama,
       },
@@ -32,12 +32,12 @@ const creatProduk = async (req, res) => {
 
 const getAllData = async (req, res) => {
   try {
-    const [result] = await ProdukModel.getAllData();
+    const data = await JenisMobilModel.getAllData();
 
-    if (!result) {
+    if (!data) {
       return res.status(404).json({
         status: 404,
-        message: 'Tidak ada data yang ditemukan.',
+        message: 'Tidak ada data yang tidak ditemukan.',
         data: null,
       });
     }
@@ -45,7 +45,7 @@ const getAllData = async (req, res) => {
     res.status(200).json({
       status: 200,
       message: 'Data berhasil ditemukan!',
-      data: result,
+      data: data,
     });
   } catch (error) {
     res.status(500).json({
@@ -56,16 +56,16 @@ const getAllData = async (req, res) => {
   }
 };
 
-const updateProduk = async (req, res) => {
+const updateJenisMobil = async (req, res) => {
   const { id } = req.params;
   const { body } = req;
 
   try {
-    await ProdukModel.updateProduk(body, id);
+    await JenisMobilModel.updateJenisMobil(body, id);
 
     res.status(200).json({
       status: 200,
-      message: 'Produk berhasil diperbarui!',
+      message: 'Jenis mobil berhasil diperbarui!',
       data: {
         id: id,
         ...body,
@@ -80,15 +80,15 @@ const updateProduk = async (req, res) => {
   }
 };
 
-const deleteProduk = async (req, res) => {
+const deleteJenisMobil = async (req, res) => {
   const { id } = req.params;
 
   try {
-    await ProdukModel.deleteProduk(id);
+    await JenisMobilModel.deleteJenisMobil(id);
 
     res.status(200).json({
       status: 200,
-      message: 'Produk berhasil dihapus!',
+      message: 'Jenis mobil berhasil dihapus!',
       data: [],
     });
   } catch (error) {
@@ -101,8 +101,8 @@ const deleteProduk = async (req, res) => {
 };
 
 module.exports = {
-  creatProduk,
+  creatJenisMobil,
   getAllData,
-  updateProduk,
-  deleteProduk,
+  updateJenisMobil,
+  deleteJenisMobil,
 };

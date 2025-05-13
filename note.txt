@@ -1,0 +1,7 @@
+PENAMBAHAN
+
+# API Booking
+- Tambah durasi waktu pembayaran (30 menit).✅
+- Tambah Program Update sebagai fitur otomatis di 30 menit pertama meng-update status berlaku dan status pembayaran.✅
+- Tambah API pembayaran sebagai fitur update status berlaku dan status pembayaran.
+- Tambah Nomor antrian ✅

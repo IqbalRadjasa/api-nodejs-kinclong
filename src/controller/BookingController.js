@@ -18,7 +18,14 @@ const createBooking = async (req, res) => {
       status: 200,
       message: 'Booking successfully',
       data: {
-        nama: body.nama,
+        user_id: body.user_id,
+        produk_id: body.produk_id,
+        jenis_mobil: body.jenis_mobil,
+        tanggal: body.tanggal,
+        metode_pembayaran: body.metode_pembayaran,
+        tagihan: body.tagihan,
+        status_berlaku: body.status_berlaku,
+        status_pembayaran: body.status_pembayaran,
       },
     });
   } catch (error) {

@@ -2,15 +2,15 @@ const cron = require('node-cron');
 const dbPool = require('../config/database');
 const moment = require('moment');
 
-cron.schedule('* * * * *', async () => {
+cron.schedule('*/30 * * * *', async () => {
   console.log('Menjalankan pengecekan durasi waktu pembayaran booking...');
 
   try {
     const now = moment().format('YYYY-MM-DD HH:mm:ss');
     const query = `
       UPDATE booking 
-      SET status_berlaku = 'Expired', status_pembayaran = 'Dibatalkan' 
-      WHERE status_pembayaran = 'Menunggu Pembayaran' 
+      SET status_berlaku_id = 2, status_pembayaran_id = 3 
+      WHERE status_pembayaran_id = 2 
       AND TIMESTAMPDIFF(MINUTE, tanggal, NOW()) >= 30
     `;
 

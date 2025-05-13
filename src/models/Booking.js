@@ -2,10 +2,10 @@ const dbPool = require('../config/database');
 
 const createBooking = async (body) => {
   const users_query = `
-      INSERT INTO booking (user_id, produk_id, jenis_mobil, tanggal, metode_pembayaran, tagihan, status_berlaku, status_pembayaran) 
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+      INSERT INTO booking (user_id, produk_id, jenis_mobil_id, tanggal, metode_pembayaran_id, tagihan, status_berlaku_id, status_pembayaran_id) 
+      VALUES (?, ?, ?, ?, ?, ?, 1, 2)
     `;
-  const [result] = await dbPool.execute(users_query, [body.user_id, body.produk_id, body.jenis_mobil, body.tanggal, body.metode_pembayaran, body.tagihan, body.status_berlaku, body.status_pembayaran]);
+  const [result] = await dbPool.execute(users_query, [body.user_id, body.produk_id, body.jenis_mobil_id, body.tanggal, body.metode_pembayaran_id, body.tagihan]);
 
   return result;
 };

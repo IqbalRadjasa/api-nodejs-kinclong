@@ -3,7 +3,7 @@ const BookingModel = require('../models/Booking');
 const createBooking = async (req, res) => {
   const { body } = req;
 
-  if ((!body.user_id, !body.produk_id, !body.jenis_mobil, !body.tanggal, !body.metode_pembayaran, !body.tagihan, !body.status_berlaku, !body.status_pembayaran)) {
+  if ((!body.user_id, !body.produk_id, !body.jenis_mobil_id, !body.tanggal, !body.metode_pembayaran_id, !body.tagihan)) {
     return res.status(400).json({
       status: 400,
       message: 'Data tidak boleh kosong!',
@@ -20,12 +20,12 @@ const createBooking = async (req, res) => {
       data: {
         user_id: body.user_id,
         produk_id: body.produk_id,
-        jenis_mobil: body.jenis_mobil,
+        jenis_mobil: body.jenis_mobil_id,
         tanggal: body.tanggal,
-        metode_pembayaran: body.metode_pembayaran,
+        metode_pembayaran: body.metode_pembayaran_id,
         tagihan: body.tagihan,
-        status_berlaku: body.status_berlaku,
-        status_pembayaran: body.status_pembayaran,
+        // status_berlaku: body.status_berlaku_id,
+        // status_pembayaran: body.status_pembayaran_id,
       },
     });
   } catch (error) {

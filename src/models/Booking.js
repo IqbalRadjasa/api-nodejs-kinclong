@@ -16,16 +16,13 @@ const getAllData = async () => {
   return result;
 };
 
-const updateProduk = (body, id) => {
-  const query = `UPDATE produk SET nama = "${body.nama}" WHERE id = ${id}`;
-  const exec = dbPool.execute(query);
+const bookingPayment = (body) => {
+  const last_queued_no = 'SELECT id, no_antrian FROM booking WHERE status_berlaku = "Not Expired" AND status_pembayaran = "Sudah Bayar" ORDER BY no_antrian DESC LIMIT 1';
 
-  return exec;
-};
+  const new_queued_no = last_queued_no + 1;
 
-const deleteProduk = (id) => {
-  const query = `DELETE FROM produk WHERE id = ${id}`;
-  const exec = dbPool.execute(query);
+  const payment_query = `UPDATE booking SET status_pembayaran = "${body.status_pembayaran}" WHERE id = ${body.booking_id}`;
+  const exec = dbPool.execute(payment_query);
 
   return exec;
 };
@@ -33,6 +30,5 @@ const deleteProduk = (id) => {
 module.exports = {
   createBooking,
   getAllData,
-  updateProduk,
-  deleteProduk,
+  bookingPayment,
 };

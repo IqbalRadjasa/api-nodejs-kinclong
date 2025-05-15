@@ -12,8 +12,8 @@ const createData = async (body) => {
 
 const getAllData = async () => {
   const query = `SELECT * FROM produk`;
-  const [result] = await dbPool.execute(query);
-  return result;
+  const [rows] = await dbPool.execute(query);
+  return rows;
 };
 
 const updateData = (body, id) => {

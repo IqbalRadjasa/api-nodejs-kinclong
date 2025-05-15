@@ -37,6 +37,38 @@ const createBooking = async (req, res) => {
   }
 };
 
+const bookingPayment = async (req, res) => {
+  const { body } = req;
+
+  if ((!body.booking_id, !body.status_pembayaran_id, !body.tanggal)) {
+    return res.status(400).json({
+      status: 400,
+      message: 'Data tidak boleh kosong!',
+      data: null,
+    });
+  }
+
+  try {
+    await BookingModel.bookingPayment(body);
+
+    res.status(200).json({
+      status: 200,
+      message: 'Pembayaran berhasil!',
+      data: {
+        booking_id: body.booking_id,
+        status_pembayaran_id: body.status_pembayaran_id,
+        tanggal: body.tanggal
+      },
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: 500,
+      message: 'Server error',
+      serverMessage: error.message,
+    });
+  }
+};
+
 const bookingHistory = async (req, res) => {
   const { body } = req;
 
@@ -68,4 +100,5 @@ const bookingHistory = async (req, res) => {
 module.exports = {
   createBooking,
   bookingHistory,
+  bookingPayment,
 };

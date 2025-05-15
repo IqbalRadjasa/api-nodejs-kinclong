@@ -8,8 +8,8 @@ const authenticateToken = require('../middleware/authMiddleware');
 router.post('/', authenticateToken, BookingController.createBooking);
 // Get History - GET
 router.get('/history', authenticateToken, BookingController.bookingHistory);
-// // Update - PUT
-// router.put('/:id', authenticateToken, BookingController.updateProduk);
+// Payment - PUT
+router.put('/payment', authenticateToken, BookingController.bookingPayment);
 // // Delete - DELETE
 // router.delete('/:id', authenticateToken, BookingController.deleteProduk);
 

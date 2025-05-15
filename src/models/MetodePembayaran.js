@@ -5,6 +5,8 @@ const createData = async (body) => {
       INSERT INTO metode_pembayaran (nama) 
       VALUES (?)
     `;
+
+    // body.nama = "testing"
   const [result] = await dbPool.execute(users_query, [body.nama]);
 
   return result;

@@ -11,7 +11,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // Active PORT
-const envPort = process.env.PORT || 5000;
+const envPort = process.env.PORT || 5000
 app.listen(envPort, () => {
   console.log(`🚀 Server running on PORT ${envPort}`);
 });

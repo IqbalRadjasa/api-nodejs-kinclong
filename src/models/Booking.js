@@ -48,6 +48,45 @@ const bookingHistory = async (body) => {
   return rows;
 };
 
+const bookingList = async (body) => {
+  const query = `
+    SELECT b.no_antrian, u.username, jm.nama, b.tanggal
+    FROM booking b
+    LEFT JOIN users u ON b.user_id = u.id
+    LEFT JOIN jenis_mobil jm ON b.jenis_mobil_id = jm.id
+    WHERE 
+      b.status_pembayaran_id = 1 
+      AND b.no_antrian IS NOT NULL 
+      AND (
+        (? IS NULL AND ? IS NULL) -- No filter
+        OR (? IS NOT NULL AND u.username LIKE CONCAT('%', ?, '%')) -- Only username filter
+        OR (? IS NULL AND ? IS NOT NULL AND DATE(b.tanggal) = DATE(?)) -- Only date filter
+        OR (? IS NOT NULL AND ? IS NOT NULL AND DATE(b.tanggal) = DATE(?) AND u.username LIKE CONCAT('%', ?, '%')) -- Both filters
+      ) 
+    ORDER BY b.no_antrian ASC;
+  `;
+
+  const username = body.username || null;
+  const tanggal = body.tanggal || new Date().toISOString().split('T')[0];
+
+  const [rows] = await dbPool.execute(query, [
+    username,
+    tanggal, // No filter
+    username,
+    username, // Only username filter
+    username,
+    tanggal,
+    tanggal, // Only date filter
+    username,
+    tanggal,
+    tanggal,
+    username, // Both filters
+  ]);
+
+  return rows;
+};
+
+
 const bookingPayment = async (body) => {
   try {
     const last_queued_no_query = `
@@ -77,9 +116,9 @@ const bookingPayment = async (body) => {
   }
 };
 
-
 module.exports = {
   createBooking,
   bookingHistory,
   bookingPayment,
+  bookingList,
 };

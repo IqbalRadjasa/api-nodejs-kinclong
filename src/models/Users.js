@@ -10,6 +10,34 @@ const createUser = async (body) => {
   return result;
 };
 
+const createOtp = async (email, otp) => {
+  const query = `
+      INSERT INTO temp_otp (email, otp) 
+      VALUES (?, ?)
+    `;
+  const [result] = await dbPool.execute(query, [email, otp]);
+
+  return result;
+};
+
+const verifyOtp = async (email) => {
+  const query = `
+      SELECT otp FROM temp_otp WHERE email = ?
+    `;
+  const [result] = await dbPool.execute(query, [email]);
+
+  return result[0];
+};
+
+const deleteOtp = async (email) => {
+  const query = `
+      DELETE FROM temp_otp WHERE email = ?
+    `;
+  const exec = await dbPool.execute(query, [email]);
+
+  return exec;
+};
+
 const getUserByUsername = async (username) => {
   const query = `SELECT * FROM users WHERE username = ?`;
   const [rows] = await dbPool.execute(query, [username]);
@@ -22,14 +50,14 @@ const getUserByEmail = async (email) => {
   return rows;
 };
 
-const resetPassword = async (username, email, hashedPassword) => {
+const resetPassword = async (email, hashedPassword) => {
   const query = `
-    UPDATE users SET password = ? WHERE username = ? and email = ? 
+    UPDATE users SET password = ? WHERE email = ? 
   `;
-  const [result] = await dbPool.execute(query, [hashedPassword, username, email]);
+  const [result] = await dbPool.execute(query, [hashedPassword, email]);
 
   if (result.affectedRows === 0) {
-    throw new Error('User not found or invalid username/email combination');
+    throw new Error('User not found or invalid email');
   }
 
   return result;
@@ -44,6 +72,9 @@ const updateUser = (body, id) => {
 
 module.exports = {
   createUser,
+  createOtp,
+  verifyOtp,
+  deleteOtp,
   getUserByUsername,
   getUserByEmail,
   resetPassword,

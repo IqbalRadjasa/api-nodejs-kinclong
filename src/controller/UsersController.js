@@ -1,7 +1,6 @@
 const UsersModel = require('../models/Users');
 const jwt = require('jsonwebtoken');
 const transporter = require('../config/email');
-const redisClient = require('../config/redis');
 const crypto = require('crypto');
 const { hashPassword, verifyPassword } = require('../utils/hashUtil');
 
@@ -112,7 +111,7 @@ const forgotPassword = async (req, res) => {
 
   const otp = crypto.randomInt(100000, 999999).toString();
 
-  await redisClient.setEx(`otp:${email}`, 300, otp);
+  await UsersModel.createOtp(email, otp);
 
   await transporter.sendMail({
     from: process.env.EMAIL_USER,
@@ -125,22 +124,22 @@ const forgotPassword = async (req, res) => {
 };
 
 const resetPassword = async (req, res) => {
-  const { username, email, otp, newPassword } = req.body;
+  const { email, otp, newPassword } = req.body;
 
-  const storedOtp = await redisClient.get(`otp:${email}`);
+  const storedOtp = await UsersModel.verifyOtp(email);
 
   if (!storedOtp) {
     return res.status(400).json({ status: 400, message: 'Kode OTP tidak berlaku atau tidak sesuai!' });
   }
 
-  if (storedOtp !== otp) {
+  if (storedOtp.otp !== otp) {
     return res.status(400).json({ status: 400, message: 'Kode OTP tidak sesuai!' });
   }
 
   const hashedPassword = await hashPassword(newPassword);
-  await UsersModel.resetPassword(username, email, hashedPassword);
+  await UsersModel.resetPassword(email, hashedPassword);
 
-  await redisClient.del(`otp:${email}`);
+  await UsersModel.deleteOtp(email);
 
   res.status(200).json({ status: 200, message: 'Kata Sandi berhasil dibuat ulang!' });
 };

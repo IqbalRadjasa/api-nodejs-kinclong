@@ -1,0 +1,37 @@
+{
+  "definition": {
+    "openapi": "3.0.0",
+    "info": {
+      "title": "API-NODEJS-KINCILONG",
+      "version": "1.0.0",
+      "description": "API Documentation with Swagger JSDoc"
+    },
+    "servers": [
+      {
+        "url": "http://localhost:3000",
+        "description": "Local server"
+      }
+    ],
+    "components": {
+      "securitySchemes": {
+        "BearerAuth": {
+          "type": "http",
+          "scheme": "bearer",
+          "bearerFormat": "JWT"
+        },
+        "ApiKeyAuth": {
+          "type": "apiKey",
+          "in": "header",
+          "name": "x-api-key"
+        }
+      }
+    },
+    "security": [
+      {
+        "BearerAuth": [],
+        "ApiKeyAuth": []
+      }
+    ]
+  },
+  "apis": ["./src/routes/*.js"]
+}

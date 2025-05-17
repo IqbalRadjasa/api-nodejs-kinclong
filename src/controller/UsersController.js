@@ -141,7 +141,7 @@ const resetPassword = async (req, res) => {
 
   await UsersModel.deleteOtp(email);
 
-  res.status(200).json({ status: 200, message: 'Kata Sandi berhasil dibuat ulang!' });
+  res.status(200).json({ status: 200, message: 'Kata Sandi berhasil diperbarui!' });
 };
 
 const updateUserProfile = async (req, res) => {

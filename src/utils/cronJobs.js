@@ -23,13 +23,13 @@ cron.schedule('*/30 * * * *', async () => {
 });
 
 // Pengecekan Kode OTP setiap 10 Menit
-cron.schedule('* * * * *', async () => {
+cron.schedule('*/10 * * * *', async () => {
   console.log('Menjalankan pengecekan dan penghapusan OTP kadaluarsa...');
 
   try {
     const query = `
       DELETE FROM temp_otp 
-      WHERE TIMESTAMPDIFF(MINUTE, created_at, NOW()) >= 1
+      WHERE TIMESTAMPDIFF(MINUTE, created_at, NOW()) >= 15
     `;
 
     const [result] = await dbPool.execute(query);

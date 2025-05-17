@@ -24,8 +24,6 @@ const createBooking = async (req, res) => {
         tanggal: body.tanggal,
         metode_pembayaran: body.metode_pembayaran_id,
         tagihan: body.tagihan,
-        // status_berlaku: body.status_berlaku_id,
-        // status_pembayaran: body.status_pembayaran_id,
       },
     });
   } catch (error) {

@@ -55,7 +55,7 @@ const bookingPayment = async (req, res) => {
       data: {
         booking_id: body.booking_id,
         status_pembayaran_id: body.status_pembayaran_id,
-        tanggal: body.tanggal
+        tanggal: body.tanggal,
       },
     });
   } catch (error) {
@@ -68,12 +68,12 @@ const bookingPayment = async (req, res) => {
 };
 
 const bookingHistory = async (req, res) => {
-  const { body } = req;
+  const { user_id, start_date, end_date } = req.query;
 
   try {
-    const data = await BookingModel.bookingHistory(body);
+    const data = await BookingModel.bookingHistory(user_id, start_date, end_date);
 
-    if (!data) {
+    if (data.length === 0) {
       return res.status(404).json({
         status: 404,
         message: 'Tidak ada data yang tidak ditemukan.',
@@ -96,12 +96,12 @@ const bookingHistory = async (req, res) => {
 };
 
 const bookingList = async (req, res) => {
-  const { body } = req;
+  const { username, tanggal } = req.query;
 
   try {
-    const data = await BookingModel.bookingList(body);
+    const data = await BookingModel.bookingList(username, tanggal);
 
-    if (!data) {
+    if (data.length === 0) {
       return res.status(404).json({
         status: 404,
         message: 'Tidak ada data yang tidak ditemukan.',

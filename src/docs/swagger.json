@@ -8,8 +8,8 @@
     },
     "servers": [
       {
-        "url": "http://localhost:3000",
-        "description": "Local server"
+        "url": "https://optical-empire-460112-r0.et.r.appspot.com",
+        "description": "Google Cloud Server"
       }
     ],
     "components": {

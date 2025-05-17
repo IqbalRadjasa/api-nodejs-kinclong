@@ -10,45 +10,42 @@ const createBooking = async (body) => {
   return result;
 };
 
-const bookingHistory = async (body) => {
+const bookingHistory = async (user_id, start_date, end_date) => {
   const query = `
-  SELECT 
-    u.username AS nama_pengguna, 
-    p.nama AS produk, 
-    jm.nama AS jenis_mobil, 
-    b.tanggal, 
-    b.tagihan, 
-    mp.nama as metode_pembayaran, 
-    sb.nama AS status_berlaku, 
-    sp.nama AS status_pembayaran, 
-    b.no_antrian 
+    SELECT 
+      u.username AS nama_pengguna, 
+      p.nama AS produk, 
+      jm.nama AS jenis_mobil, 
+      b.tanggal, 
+      b.tagihan, 
+      mp.nama as metode_pembayaran, 
+      sb.nama AS status_berlaku, 
+      sp.nama AS status_pembayaran, 
+      b.no_antrian 
     FROM booking b
-    RIGHT JOIN users u ON b.user_id = u.id
+    LEFT JOIN users u ON b.user_id = u.id
     LEFT JOIN produk p ON b.produk_id = p.id
     LEFT JOIN jenis_mobil jm ON b.jenis_mobil_id = jm.id
     LEFT JOIN metode_pembayaran mp ON b.metode_pembayaran_id = mp.id
     LEFT JOIN status_berlaku sb ON b.status_berlaku_id = sb.id
     LEFT JOIN status_pembayaran sp ON b.status_pembayaran_id = sp.id
-    WHERE u.id = ?
+    WHERE u.id = ? 
       AND (
-        (? IS NULL AND ? IS NULL) 
-        OR (? IS NOT NULL AND ? IS NULL AND DATE(b.tanggal) >= ?) 
-        OR (? IS NULL AND ? IS NOT NULL AND DATE(b.tanggal) <= ?) 
-        OR (DATE(b.tanggal) BETWEEN ? AND ?)
+        (DATE(b.tanggal) >= ? OR ? IS NULL)
+        AND (DATE(b.tanggal) <= ? OR ? IS NULL)
       )
     ORDER BY b.tanggal DESC;
     `;
 
-  const user_id = body.user_id;
-  const start_date = body.start_date || null;
-  const end_date = body.end_date || null;
+  const date_start = start_date || null;
+  const date_end = end_date || null;
 
-  const [rows] = await dbPool.execute(query, [user_id, start_date, end_date, start_date, end_date, start_date, start_date, end_date, end_date, start_date, end_date]);
+  const [rows] = await dbPool.execute(query, [user_id, date_start, date_start, date_end, date_end]);
 
   return rows;
 };
 
-const bookingList = async (body) => {
+const bookingList = async (username, tanggal) => {
   const query = `
     SELECT b.no_antrian, u.username, jm.nama, b.tanggal
     FROM booking b
@@ -58,34 +55,19 @@ const bookingList = async (body) => {
       b.status_pembayaran_id = 1 
       AND b.no_antrian IS NOT NULL 
       AND (
-        (? IS NULL AND ? IS NULL) -- No filter
-        OR (? IS NOT NULL AND u.username LIKE CONCAT('%', ?, '%')) -- Only username filter
-        OR (? IS NULL AND ? IS NOT NULL AND DATE(b.tanggal) = DATE(?)) -- Only date filter
-        OR (? IS NOT NULL AND ? IS NOT NULL AND DATE(b.tanggal) = DATE(?) AND u.username LIKE CONCAT('%', ?, '%')) -- Both filters
-      ) 
+        (u.username LIKE CONCAT('%', ?, '%') OR ? IS NULL) 
+        AND (DATE(b.tanggal) = DATE(?) OR ? IS NULL)
+      )
     ORDER BY b.no_antrian ASC;
   `;
 
-  const username = body.username || null;
-  const tanggal = body.tanggal || new Date().toISOString().split('T')[0];
+  const username_null = username || null;
+  const tanggal_null = tanggal || new Date().toISOString().split('T')[0];
 
-  const [rows] = await dbPool.execute(query, [
-    username,
-    tanggal, // No filter
-    username,
-    username, // Only username filter
-    username,
-    tanggal,
-    tanggal, // Only date filter
-    username,
-    tanggal,
-    tanggal,
-    username, // Both filters
-  ]);
+  const [rows] = await dbPool.execute(query, [username_null, username_null, tanggal_null, tanggal_null]);
 
   return rows;
 };
-
 
 const bookingPayment = async (body) => {
   try {

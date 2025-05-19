@@ -3,6 +3,13 @@ const router = express.Router();
 const JenisMobilController = require('../controller/JenisMobilController');
 const authenticateToken = require('../middleware/authMiddleware');
 
+/**
+ * @swagger
+ * tags:
+ *   - name: Jenis Mobil
+ *     description: API untuk pengelolaan jenis-jenis mobil yang tersedia
+ */
+
 // CRUD Routes
 // Create - POST
 /**
@@ -10,6 +17,8 @@ const authenticateToken = require('../middleware/authMiddleware');
  * /jenisMobil/:
  *   post:
  *     summary: Membuat data baru.
+ *     tags: 
+ *       - Jenis Mobil
  *     requestBody:
  *       required: true
  *       content:
@@ -31,6 +40,8 @@ router.post('/', authenticateToken, JenisMobilController.createData);
  * /jenisMobil/:
  *   get:
  *     summary: Ambil semua data.
+ *     tags: 
+ *       - Jenis Mobil
  *     responses:
  *       200:
  *         description: Data berhasil ditemukan!
@@ -43,6 +54,8 @@ router.get('/', authenticateToken, JenisMobilController.getAllData);
  * /jenisMobil/{id}:
  *   put:
  *     summary: Memperbarui data berdasarkan ID.
+ *     tags: 
+ *       - Jenis Mobil
  *     security:
  *       - BearerAuth: []
  *       - ApiKeyAuth: []
@@ -73,6 +86,8 @@ router.put('/:id', authenticateToken, JenisMobilController.updateData);
  * /jenisMobil/{id}:
  *   delete:
  *     summary: Hapus data berdasarkan ID
+ *     tags: 
+ *       - Jenis Mobil
  *     parameters:
  *       - in: path
  *         name: id

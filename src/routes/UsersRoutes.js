@@ -3,6 +3,13 @@ const router = express.Router();
 const UsersController = require('../controller/UsersController');
 const authenticateToken = require('../middleware/authMiddleware');
 
+/**
+ * @swagger
+ * tags:
+ *   - name: Autentikasi Pengguna
+ *     description: API untuk pengelolaan status pembayaran yang tersedia
+ */
+
 // CRUD Routes
 // Register - POST
 /**
@@ -10,6 +17,8 @@ const authenticateToken = require('../middleware/authMiddleware');
  * /users/register:
  *   post:
  *     summary: Membuat akun baru.
+ *     tags: 
+ *       - Autentikasi Pengguna
  *     requestBody:
  *       required: true
  *       content:
@@ -43,6 +52,8 @@ router.post('/register', UsersController.createUser);
  * /users/login:
  *   post:
  *     summary: Masuk dengan akun yang terdaftar.
+ *     tags: 
+ *       - Autentikasi Pengguna
  *     requestBody:
  *       required: true
  *       content:
@@ -66,6 +77,8 @@ router.post('/login', UsersController.getUserByUsernamePassword);
  * /users/{id}:
  *   put:
  *     summary: Memperbarui profil pengguna berdasarkan ID.
+ *     tags: 
+ *       - Autentikasi Pengguna
  *     security:
  *       - BearerAuth: []
  *       - ApiKeyAuth: []
@@ -104,6 +117,8 @@ router.put('/:id', authenticateToken, UsersController.updateUserProfile);
  *     summary: >
  *       Fase Pertama Lupa Password:
  *       Masukkan email pengguna untuk mendapatkan Kode OTP.
+ *     tags: 
+ *       - Autentikasi Pengguna
  *     security:
  *       - BearerAuth: []
  *       - ApiKeyAuth: []
@@ -130,6 +145,8 @@ router.post('/forgot-password', UsersController.forgotPassword);
  *     summary: >
  *       Fase Pertama Lupa Password:
  *       Fase Kedua Lupa Password= Masukkan Email, Kode OTP, dan Password Baru.
+ *     tags: 
+ *       - Autentikasi Pengguna
  *     security:
  *       - BearerAuth: []
  *       - ApiKeyAuth: []

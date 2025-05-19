@@ -3,6 +3,13 @@ const router = express.Router();
 const StatusBerlakuController = require('../controller/StatusBerlakuController');
 const authenticateToken = require('../middleware/authMiddleware');
 
+/**
+ * @swagger
+ * tags:
+ *   - name: Status Berlaku
+ *     description: API untuk pengelolaan status berlaku yang tersedia
+ */
+
 // CRUD Routes
 // Create - POST
 /**
@@ -10,6 +17,8 @@ const authenticateToken = require('../middleware/authMiddleware');
  * /statusBerlaku/:
  *   post:
  *     summary: Membuat data baru.
+ *     tags: 
+ *       - Status Berlaku
  *     requestBody:
  *       required: true
  *       content:
@@ -31,6 +40,8 @@ router.post('/', authenticateToken, StatusBerlakuController.createData);
  * /statusBerlaku/:
  *   get:
  *     summary: Ambil semua data.
+ *     tags: 
+ *       - Status Berlaku
  *     responses:
  *       200:
  *         description: Data berhasil ditemukan!
@@ -43,6 +54,8 @@ router.get('/', authenticateToken, StatusBerlakuController.getAllData);
  * /statusBerlaku/{id}:
  *   put:
  *     summary: Memperbarui data berdasarkan ID.
+ *     tags: 
+ *       - Status Berlaku
  *     security:
  *       - BearerAuth: []
  *       - ApiKeyAuth: []
@@ -73,6 +86,8 @@ router.put('/:id', authenticateToken, StatusBerlakuController.updateData);
  * /statusBerlaku/{id}:
  *   delete:
  *     summary: Hapus data berdasarkan ID
+ *     tags: 
+ *       - Status Berlaku
  *     parameters:
  *       - in: path
  *         name: id

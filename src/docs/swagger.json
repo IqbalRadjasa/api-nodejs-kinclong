@@ -2,7 +2,7 @@
   "definition": {
     "openapi": "3.0.0",
     "info": {
-      "title": "API-NODEJS-KINCILONG",
+      "title": "API-NODEJS-KINCLONG*",
       "version": "1.0.0",
       "description": "API Documentation with Swagger JSDoc"
     },

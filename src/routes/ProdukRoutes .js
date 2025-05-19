@@ -3,6 +3,13 @@ const router = express.Router();
 const ProdukController = require('../controller/ProdukController');
 const authenticateToken = require('../middleware/authMiddleware');
 
+/**
+ * @swagger
+ * tags:
+ *   - name: Produk
+ *     description: API untuk pengelolaan produk yang tersedia
+ */
+
 // CRUD Routes
 // Create - POST
 /**
@@ -10,6 +17,8 @@ const authenticateToken = require('../middleware/authMiddleware');
  * /produk/:
  *   post:
  *     summary: Membuat data baru.
+ *     tags: 
+ *       - Produk
  *     requestBody:
  *       required: true
  *       content:
@@ -31,6 +40,8 @@ router.post('/', authenticateToken, ProdukController.createData);
  * /produk/:
  *   get:
  *     summary: Ambil semua data.
+ *     tags: 
+ *       - Produk
  *     responses:
  *       200:
  *         description: Data berhasil ditemukan!
@@ -43,6 +54,8 @@ router.get('/', authenticateToken, ProdukController.getAllData);
  * /produk/{id}:
  *   put:
  *     summary: Memperbarui data berdasarkan ID.
+ *     tags: 
+ *       - Produk
  *     security:
  *       - BearerAuth: []
  *       - ApiKeyAuth: []
@@ -73,6 +86,8 @@ router.put('/:id', authenticateToken, ProdukController.updateData);
  * /produk/{id}:
  *   delete:
  *     summary: Hapus data berdasarkan ID
+ *     tags: 
+ *       - Produk
  *     parameters:
  *       - in: path
  *         name: id

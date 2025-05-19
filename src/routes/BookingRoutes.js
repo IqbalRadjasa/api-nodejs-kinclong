@@ -3,6 +3,13 @@ const router = express.Router();
 const BookingController = require('../controller/BookingController');
 const authenticateToken = require('../middleware/authMiddleware');
 
+/**
+ * @swagger
+ * tags:
+ *   - name: Booking
+ *     description: API untuk pengelolaan pemesanan
+ */
+
 // CRUD Routes
 // Create - POST
 /**
@@ -10,6 +17,8 @@ const authenticateToken = require('../middleware/authMiddleware');
  * /booking/:
  *   post:
  *     summary: Membuat pemesanan baru.
+ *     tags: 
+ *       - Booking
  *     security:
  *       - BearerAuth: []
  *       - ApiKeyAuth: []
@@ -44,6 +53,8 @@ router.post('/', authenticateToken, BookingController.createBooking);
  * /booking/history:
  *   get:
  *     summary: Ambil semua histori pemesanan.
+ *     tags: 
+ *       - Booking
  *     security:
  *       - BearerAuth: []
  *       - ApiKeyAuth: []
@@ -77,6 +88,8 @@ router.get('/history', authenticateToken, BookingController.bookingHistory);
  * /booking/list:
  *   get:
  *     summary: Ambil semua list pemesanan yang aktif.
+ *     tags: 
+ *       - Booking
  *     security:
  *       - BearerAuth: []
  *       - ApiKeyAuth: []
@@ -104,6 +117,8 @@ router.get('/list', authenticateToken, BookingController.bookingList);
  * /booking/payment:
  *   put:
  *     summary: Melakukan pembayaran pemesanan.
+ *     tags: 
+ *       - Booking
  *     security:
  *       - BearerAuth: []
  *       - ApiKeyAuth: []

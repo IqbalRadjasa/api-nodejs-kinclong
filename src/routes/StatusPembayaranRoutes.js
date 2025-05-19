@@ -3,6 +3,13 @@ const router = express.Router();
 const StatusPembayaranController = require('../controller/StatusPembayaranController');
 const authenticateToken = require('../middleware/authMiddleware');
 
+/**
+ * @swagger
+ * tags:
+ *   - name: Status Pembayaran
+ *     description: API untuk pengelolaan status pembayaran yang tersedia
+ */
+
 // CRUD Routes
 // Create - POST
 /**
@@ -10,6 +17,8 @@ const authenticateToken = require('../middleware/authMiddleware');
  * /statusPembayaran/:
  *   post:
  *     summary: Membuat data baru.
+ *     tags: 
+ *       - Status Pembayaran
  *     requestBody:
  *       required: true
  *       content:
@@ -31,6 +40,8 @@ router.post('/', authenticateToken, StatusPembayaranController.createData);
  * /statusPembayaran/:
  *   get:
  *     summary: Ambil semua data.
+ *     tags: 
+ *       - Status Pembayaran
  *     responses:
  *       200:
  *         description: Data berhasil ditemukan!
@@ -43,6 +54,8 @@ router.get('/', authenticateToken, StatusPembayaranController.getAllData);
  * /statusPembayaran/{id}:
  *   put:
  *     summary: Memperbarui data berdasarkan ID.
+ *     tags: 
+ *       - Status Pembayaran
  *     security:
  *       - BearerAuth: []
  *       - ApiKeyAuth: []
@@ -73,6 +86,8 @@ router.put('/:id', authenticateToken, StatusPembayaranController.updateData);
  * /statusPembayaran/{id}:
  *   delete:
  *     summary: Hapus data berdasarkan ID
+ *     tags: 
+ *       - Status Pembayaran
  *     parameters:
  *       - in: path
  *         name: id
